@@ -53,6 +53,14 @@ This package is almost identical to the TabBarView API in the Flutter SDK, but w
     </tbody>
 </table>
 
+## Feature
+
+1. It's a direct clone of TabBarView from the Flutter SDK, so more than 95% of the codebase is identical and reliable.
+2. The widgets in children(tabs) are all built lazily, with keepAlive behavior as needed.
+  ![lazy_build](https://github.com/user-attachments/assets/48eb4e79-c23e-4dd4-acbe-937d3c6d6010)
+3. Transition animations are 100% customizable based on transition rate.
+4. There are plenty of presets to get you started quickly, and hints for customization.
+
 ## Migration guide
 
 ### from TabBarView
