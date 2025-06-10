@@ -1,5 +1,4 @@
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+library custom_tabbarview;
+
+export 'src/custom_tabbarview.dart';
+export 'src/custom_tabbarview_types.dart';
