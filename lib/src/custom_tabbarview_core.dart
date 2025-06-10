@@ -58,6 +58,13 @@ class CustomTabBarViewCore extends StatefulWidget {
     this.clipBehavior = Clip.hardEdge,
   }) : builder = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
+  /// - Implement [builder] type of [CustomTabBarViewBuilder].
   const CustomTabBarViewCore.builder({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -81,7 +88,9 @@ class CustomTabBarViewCore extends StatefulWidget {
   /// list, as well as the [controller]'s [TabController.length].
   final List<Widget> children;
 
-  /// TODO: add description
+  /// The builder for building the widgets passed in [tabs] individually.
+  ///
+  /// It must be implemented as a [CustomTabBarViewBuilder] type.
   final CustomTabBarViewBuilder? builder;
 
   /// How the page view should respond to user input.

@@ -4,6 +4,7 @@ import 'package:custom_tabbarview/src/custom_tabbarview_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+/// It must be a one-to-one correspondence with the preset constructor.
 enum _EPreset {
   fade,
   stack,
@@ -12,6 +13,13 @@ enum _EPreset {
   toss2,
 }
 
+/// This is a new API derived from TabBarView.
+///
+/// The basic usage is almost identical to TabBarView,
+/// and the migration guide is as follows:
+///
+/// - Rename [chindren] to [tabs].
+/// - Implement [builder] type of [CustomTabBarViewBuilder].
 class CustomTabBarView extends StatefulWidget {
   /// Creates a page view with one child per tab.
   ///
@@ -27,6 +35,13 @@ class CustomTabBarView extends StatefulWidget {
   })  : _preset = null,
         builder = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
+  /// - Implement [builder] type of [CustomTabBarViewBuilder].
   const CustomTabBarView.builder({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -39,6 +54,14 @@ class CustomTabBarView extends StatefulWidget {
   })  : children = tabs,
         _preset = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// Constructor with a **fade** transition animation.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
   const CustomTabBarView.fade({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -51,6 +74,14 @@ class CustomTabBarView extends StatefulWidget {
         _preset = _EPreset.fade,
         builder = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// Constructor with a **stack** transition animation.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
   const CustomTabBarView.stack({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -63,6 +94,14 @@ class CustomTabBarView extends StatefulWidget {
         _preset = _EPreset.stack,
         builder = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// Constructor with a **carousel** transition animation.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
   const CustomTabBarView.carousel({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -75,6 +114,14 @@ class CustomTabBarView extends StatefulWidget {
         _preset = _EPreset.carousel,
         builder = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// Constructor with a **Toss app** transition animation.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
   const CustomTabBarView.toss1({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -87,6 +134,14 @@ class CustomTabBarView extends StatefulWidget {
         _preset = _EPreset.toss1,
         builder = null;
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// Constructor with a **Toss app** transition animation.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
   const CustomTabBarView.toss2({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -99,7 +154,7 @@ class CustomTabBarView extends StatefulWidget {
         _preset = _EPreset.toss2,
         builder = null;
 
-  /// TODO: add description
+  /// The preset enum injected by the preset constructor.
   final _EPreset? _preset;
 
   /// This widget's selection and animation state.
@@ -114,7 +169,9 @@ class CustomTabBarView extends StatefulWidget {
   /// list, as well as the [controller]'s [TabController.length].
   final List<Widget> children;
 
-  /// TODO: add description
+  /// The builder for building the widgets passed in [tabs] individually.
+  ///
+  /// It must be implemented as a [CustomTabBarViewBuilder] type.
   final CustomTabBarViewBuilder? builder;
 
   /// How the page view should respond to user input.
