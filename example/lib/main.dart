@@ -66,7 +66,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
         title: const Text('CustomTabBarView Demo'),
       ),
       backgroundColor: Colors.white,
-      body: CustomTabBarView.stack(
+      body: CustomTabBarView.toss2(
         controller: _tabController,
         physics: const PageScrollPhysics(),
         dragStartBehavior: DragStartBehavior.down,

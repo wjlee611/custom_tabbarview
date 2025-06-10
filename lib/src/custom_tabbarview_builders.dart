@@ -84,4 +84,62 @@ class CustomTabBarViewBuilders {
       child: childrenWithKey[index],
     );
   };
+
+  // ========================================
+  // MARK: toss1Builder
+  // ========================================
+  CustomTabBarViewBuilder toss1Builder =
+      (context, pageController, childrenWithKey, index) {
+    return AnimatedBuilder(
+      animation: pageController,
+      builder: (context, child) {
+        final width = MediaQuery.sizeOf(context).width;
+        final offset = _calculateOffset(index, pageController);
+
+        final dx = offset * width * 0.95;
+        final opacity = 1 - offset.abs() * 1.2;
+
+        return Opacity(
+          opacity: opacity.clamp(0.0, 1.0),
+          child: Transform.translate(offset: Offset(dx, 0), child: child),
+        );
+      },
+      child: childrenWithKey[index],
+    );
+  };
+
+  // ========================================
+  // MARK: toss2Builder
+  // ========================================
+  CustomTabBarViewBuilder toss2Builder =
+      (context, pageController, childrenWithKey, index) {
+    return AnimatedBuilder(
+      animation: pageController,
+      builder: (context, child) {
+        final offset = _calculateOffset(index, pageController);
+
+        final scale = 0.95 + (0.5 - offset.abs()).abs() * 0.1;
+
+        return Transform.scale(
+          scale: scale.abs(),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular((1 - scale).abs() * 300),
+              boxShadow: [
+                BoxShadow(
+                  color:
+                      Colors.black.withAlpha(((1 - scale).abs() * 500).round()),
+                  spreadRadius: 2,
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: child,
+          ),
+        );
+      },
+      child: childrenWithKey[index],
+    );
+  };
 }

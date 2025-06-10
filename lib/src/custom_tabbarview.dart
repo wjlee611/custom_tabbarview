@@ -4,7 +4,13 @@ import 'package:custom_tabbarview/src/custom_tabbarview_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-enum _EPreset { fade, stack, carousel }
+enum _EPreset {
+  fade,
+  stack,
+  carousel,
+  toss1,
+  toss2,
+}
 
 class CustomTabBarView extends StatefulWidget {
   /// Creates a page view with one child per tab.
@@ -67,6 +73,30 @@ class CustomTabBarView extends StatefulWidget {
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
         _preset = _EPreset.carousel,
+        builder = null;
+
+  const CustomTabBarView.toss1({
+    super.key,
+    List<Widget> tabs = const <Widget>[],
+    this.controller,
+    this.physics,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.viewportFraction = 1.0,
+    this.clipBehavior = Clip.hardEdge,
+  })  : children = tabs,
+        _preset = _EPreset.toss1,
+        builder = null;
+
+  const CustomTabBarView.toss2({
+    super.key,
+    List<Widget> tabs = const <Widget>[],
+    this.controller,
+    this.physics,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.viewportFraction = 1.0,
+    this.clipBehavior = Clip.hardEdge,
+  })  : children = tabs,
+        _preset = _EPreset.toss2,
         builder = null;
 
   /// TODO: add description
@@ -145,6 +175,12 @@ class _CustomTabBarViewState extends State<CustomTabBarView> {
         break;
       case _EPreset.carousel:
         _builder = _builders.carouselBuilder;
+        break;
+      case _EPreset.toss1:
+        _builder = _builders.toss1Builder;
+        break;
+      case _EPreset.toss2:
+        _builder = _builders.toss2Builder;
         break;
       default:
         _builder = widget.builder;
