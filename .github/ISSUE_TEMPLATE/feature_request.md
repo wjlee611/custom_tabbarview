@@ -1,3 +1,9 @@
+---
+name: Feature Request
+about: New feature or request
+labels: ["Issue:enhancement", "Issue:un-released"]
+---
+
 > [!NOTE]
 > | Header | What to write |
 > |:--|:--|
