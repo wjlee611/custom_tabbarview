@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// A page view that displays the widget which corresponds to the currently
 /// selected tab.
@@ -368,11 +367,14 @@ class _CustomTabBarViewState extends State<CustomTabBarView> {
                 _childrenWithKey,
               )
             : SliverChildBuilderDelegate(
-                (context, index) => widget.builder!.call(
-                  context,
-                  _pageController!,
-                  _childrenWithKey,
-                  index,
+                (context, index) => KeyedSubtree(
+                  key: _childrenWithKey[index].key,
+                  child: widget.builder!.call(
+                    context,
+                    _pageController!,
+                    _childrenWithKey,
+                    index,
+                  ),
                 ),
                 findChildIndexCallback: (key) {
                   return _childrenWithKey.indexWhere(

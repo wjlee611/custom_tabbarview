@@ -1,4 +1,5 @@
-include: package:flutter_lints/flutter.yaml
+analyzer:
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+formatter:
+  page_width: 80
+  trailing_commas: preserve
