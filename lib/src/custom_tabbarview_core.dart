@@ -233,7 +233,7 @@ class _CustomTabBarViewCoreState extends State<CustomTabBarViewCore> {
   void _updateChildren() {
     _childrenWithKey = KeyedSubtree.ensureUniqueKeysForList(
       widget.children.map<Widget>((Widget child) {
-        return Semantics(role: SemanticsRole.tabPanel, child: child);
+        return Semantics(child: child);
       }).toList(),
     );
   }
