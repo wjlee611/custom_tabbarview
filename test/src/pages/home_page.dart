@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Function() onInit;
+
+  const HomePage({super.key, required this.onInit});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -18,6 +20,7 @@ class _HomePageState extends State<HomePage>
     super.initState();
     log('init home page');
     _buildCount++;
+    widget.onInit();
   }
 
   @override
