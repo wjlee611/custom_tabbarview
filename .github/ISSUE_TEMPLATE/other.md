@@ -1,3 +1,9 @@
+---
+name: Other issue
+about: Other issue
+labels: Issue:un-released
+---
+
 > [!NOTE]
 > | Header | What to write |
 > |:--|:--|
