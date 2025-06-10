@@ -1,7 +1,9 @@
 name: custom_tabbarview
-description: "A new Flutter package project."
+description: "Flutter TabBarView, but with enhanced customization capabilities."
 version: 0.0.1
-homepage:
+repository: https://github.com/wjlee611/custom_tabbarview
+issue_tracker: https://github.com/wjlee611/custom_tabbarview/issues
+topics: [tabbarview]
 
 environment:
   sdk: ">=2.17.0 <4.0.0"
