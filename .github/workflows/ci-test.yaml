@@ -1,0 +1,51 @@
+name: CI - test Workflow
+
+# 메인 브랜치 푸쉬 or PR시 자동실행
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  ci-testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+        with:
+          path: code
+
+      - name: 🐦 Get Project Flutter Version
+        id: get-project-flutter-version
+        run: |
+          # .fvmrc 파일에서 flutter 버전 읽어오기 (JSON)
+          FLUTTER_VERSION=$(jq -r '.flutter' code/.fvmrc)
+          # 출력 값 설정 (다음 스탭에서 사용할 수 있도록)
+          echo "version=$FLUTTER_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.get-project-flutter-version.outputs.version }}
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+
+      - name: 🐦 Check Flutter Version
+        run: |
+          flutter config --no-analytics
+          flutter --version
+
+      - name: 📦 Install dependencies
+        working-directory: code
+        run: flutter pub get
+
+      - name: 🔍 Analyze project source
+        working-directory: code
+        run: flutter analyze lib test
+
+      - name: 🧪 Run tests
+        working-directory: code
+        run: flutter test
