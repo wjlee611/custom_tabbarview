@@ -1,6 +1,6 @@
 name: custom_tabbarview
 description: "Flutter TabBarView, but with enhanced customization capabilities."
-version: 0.0.1
+version: 0.1.0
 repository: https://github.com/wjlee611/custom_tabbarview
 issue_tracker: https://github.com/wjlee611/custom_tabbarview/issues
 topics: [tabbarview]

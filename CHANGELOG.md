@@ -1,3 +1,10 @@
+## 0.1.0
+
+First Stable Release!
+
+- Add widget test code [#7](https://github.com/wjlee611/custom_tabbarview/issues/7)
+  - With github action ci
+
 ## 0.0.1
 
 Initial release.
