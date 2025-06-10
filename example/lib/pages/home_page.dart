@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +16,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    print('init home page');
+    log('init home page');
     _buildCount++;
   }
 

@@ -1,5 +1,10 @@
-analyzer:
+include: package:flutter_lints/flutter.yaml
 
 formatter:
   page_width: 80
   trailing_commas: preserve
+
+linter:
+  rules:
+    - invalid_runtime_check_with_js_interop_types: false
+    - unintended_html_in_doc_comment: false

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class Page4 extends StatefulWidget {
@@ -12,7 +14,7 @@ class _Page4State extends State<Page4>
   @override
   void initState() {
     super.initState();
-    print('init page 4');
+    log('init page 4');
   }
 
   @override
