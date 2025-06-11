@@ -1,26 +1,24 @@
 part of 'custom_tabbarview.dart';
 
-/// The builder functions that will be used in
-/// the preset constructor of the [CustomTabBarView] are predefined.
-class CustomTabBarViewBuilders {
-  /// 1(left) \~ 0(center) \~ -1(right)
-  static double _calculateOffset(int index, PageController pageController) {
-    double page = 0.0;
-    page = pageController.page ?? pageController.initialPage.toDouble();
-    return (page - index) * pageController.viewportFraction;
-  }
+// ========================================
+// MARK: fadeBuilder
+// ========================================
 
-  // ========================================
-  // MARK: fadeBuilder
-  // ========================================
-  /// A builder that sets opacity to 0% at 50% of the way
-  /// through a screen transition.
-  CustomTabBarViewCustomBuilder fadeBuilder =
-      (context, pageController, childrenWithKey, index) {
+/// A builder that sets opacity to 0% at 50% of the way
+/// through a screen transition.
+class _CustomTabBarViewFadeBuilderDelegate
+    extends CustomTabBarViewBuilderBaseDelegate {
+  @override
+  Widget build(
+    BuildContext context,
+    PageController pageController,
+    List<Widget> childrenWithKey,
+    int index,
+  ) {
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
-        final offset = _calculateOffset(index, pageController);
+        final offset = calcOffset(pageController, index);
 
         final opacity = 1 - offset.abs() * 2;
 
@@ -31,20 +29,29 @@ class CustomTabBarViewBuilders {
       },
       child: childrenWithKey[index],
     );
-  };
+  }
+}
 
-  // ========================================
-  // MARK: stackBuilder
-  // ========================================
-  /// A builder where the page on the right is stacked
-  /// above the page on the left.
-  CustomTabBarViewCustomBuilder stackBuilder =
-      (context, pageController, childrenWithKey, index) {
+// ========================================
+// MARK: stackBuilder
+// ========================================
+
+/// A builder where the page on the right is stacked
+/// above the page on the left.
+class _CustomTabBarViewStackBuilderDelegate
+    extends CustomTabBarViewBuilderBaseDelegate {
+  @override
+  Widget build(
+    BuildContext context,
+    PageController pageController,
+    List<Widget> childrenWithKey,
+    int index,
+  ) {
+    final width = MediaQuery.sizeOf(context).width;
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
-        final width = MediaQuery.sizeOf(context).width;
-        final offset = _calculateOffset(index, pageController);
+        final offset = calcOffset(pageController, index);
 
         final dx = (offset > 0 ? offset : -math.log(1 - offset)) * width * 0.8;
         final scale = 1 - offset * 0.2;
@@ -60,19 +67,28 @@ class CustomTabBarViewBuilders {
       },
       child: childrenWithKey[index],
     );
-  };
+  }
+}
 
-  // ========================================
-  // MARK: carouselBuilder
-  // ========================================
-  /// This builder adds a fade to add naturalness to carousel-style transitions.
-  CustomTabBarViewCustomBuilder carouselBuilder =
-      (context, pageController, childrenWithKey, index) {
+// ========================================
+// MARK: carouselBuilder
+// ========================================
+
+/// This builder adds a fade to add naturalness to carousel-style transitions.
+class _CustomTabBarViewCarouselBuilderDelegate
+    extends CustomTabBarViewBuilderBaseDelegate {
+  @override
+  Widget build(
+    BuildContext context,
+    PageController pageController,
+    List<Widget> childrenWithKey,
+    int index,
+  ) {
+    final width = MediaQuery.sizeOf(context).width;
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
-        final width = MediaQuery.sizeOf(context).width;
-        final offset = _calculateOffset(index, pageController);
+        final offset = calcOffset(pageController, index);
 
         final dx = offset * width * 0.8;
         final scale = 1 - offset.abs() * 0.1;
@@ -88,19 +104,28 @@ class CustomTabBarViewBuilders {
       },
       child: childrenWithKey[index],
     );
-  };
+  }
+}
 
-  // ========================================
-  // MARK: toss1Builder
-  // ========================================
-  /// Builders that have implemented the transitions used in Toss apps.
-  CustomTabBarViewCustomBuilder toss1Builder =
-      (context, pageController, childrenWithKey, index) {
+// ========================================
+// MARK: toss1Builder
+// ========================================
+
+/// Builders that have implemented the transitions used in Toss apps.
+class _CustomTabBarViewToss1BuilderDelegate
+    extends CustomTabBarViewBuilderBaseDelegate {
+  @override
+  Widget build(
+    BuildContext context,
+    PageController pageController,
+    List<Widget> childrenWithKey,
+    int index,
+  ) {
+    final width = MediaQuery.sizeOf(context).width;
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
-        final width = MediaQuery.sizeOf(context).width;
-        final offset = _calculateOffset(index, pageController);
+        final offset = calcOffset(pageController, index);
 
         final dx = offset * width * 0.95;
         final opacity = 1 - offset.abs() * 1.2;
@@ -112,18 +137,27 @@ class CustomTabBarViewBuilders {
       },
       child: childrenWithKey[index],
     );
-  };
+  }
+}
 
-  // ========================================
-  // MARK: toss2Builder
-  // ========================================
-  /// Builders that have implemented the transitions used in Toss apps.
-  CustomTabBarViewCustomBuilder toss2Builder =
-      (context, pageController, childrenWithKey, index) {
+// ========================================
+// MARK: toss2Builder
+// ========================================
+
+/// Builders that have implemented the transitions used in Toss apps.
+class _CustomTabBarViewToss2BuilderDelegate
+    extends CustomTabBarViewBuilderBaseDelegate {
+  @override
+  Widget build(
+    BuildContext context,
+    PageController pageController,
+    List<Widget> childrenWithKey,
+    int index,
+  ) {
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
-        final offset = _calculateOffset(index, pageController);
+        final offset = calcOffset(pageController, index);
 
         final scale = 0.95 + (0.5 - offset.abs()).abs() * 0.1;
 
@@ -148,5 +182,5 @@ class CustomTabBarViewBuilders {
       },
       child: childrenWithKey[index],
     );
-  };
+  }
 }

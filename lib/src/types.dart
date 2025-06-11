@@ -38,7 +38,7 @@ abstract class CustomTabBarViewBuilderBaseDelegate {
     int index,
   );
 
-  double offset(PageController pageController, int index) {
+  double calcOffset(PageController pageController, int index) {
     final page = pageController.page ?? pageController.initialPage.toDouble();
     return (page - index) * pageController.viewportFraction;
   }
@@ -76,7 +76,7 @@ class CustomTabBarViewBuilderDelegate
   ) {
     return builder(
       context,
-      offset(pageController, index),
+      calcOffset(pageController, index),
       childrenWithKey[index],
     );
   }

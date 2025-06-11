@@ -78,9 +78,7 @@ class CustomTabBarView extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
         builder = null,
-        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
-          CustomTabBarViewBuilders().fadeBuilder,
-        );
+        builderDelegate = _CustomTabBarViewFadeBuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -100,9 +98,7 @@ class CustomTabBarView extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
         builder = null,
-        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
-          CustomTabBarViewBuilders().stackBuilder,
-        );
+        builderDelegate = _CustomTabBarViewStackBuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -122,9 +118,7 @@ class CustomTabBarView extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
         builder = null,
-        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
-          CustomTabBarViewBuilders().carouselBuilder,
-        );
+        builderDelegate = _CustomTabBarViewCarouselBuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -144,9 +138,7 @@ class CustomTabBarView extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
         builder = null,
-        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
-          CustomTabBarViewBuilders().toss1Builder,
-        );
+        builderDelegate = _CustomTabBarViewToss1BuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -166,9 +158,7 @@ class CustomTabBarView extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
         builder = null,
-        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
-          CustomTabBarViewBuilders().toss2Builder,
-        );
+        builderDelegate = _CustomTabBarViewToss2BuilderDelegate();
 
   /// This widget's selection and animation state.
   ///
