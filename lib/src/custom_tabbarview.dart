@@ -1,17 +1,10 @@
 import 'package:custom_tabbarview/custom_tabbarview.dart';
-import 'package:custom_tabbarview/src/custom_tabbarview_builders.dart';
-import 'package:custom_tabbarview/src/custom_tabbarview_core.dart';
+import 'package:custom_tabbarview/src/core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
-/// It must be a one-to-one correspondence with the preset constructor.
-enum _EPreset {
-  fade,
-  stack,
-  carousel,
-  toss1,
-  toss2,
-}
+part '_builder_presets.dart';
 
 /// This is a new API derived from TabBarView.
 ///
@@ -20,7 +13,7 @@ enum _EPreset {
 ///
 /// - Rename [chindren] to [tabs].
 /// - Implement [builder] type of [CustomTabBarViewBuilder].
-class CustomTabBarView extends StatefulWidget {
+class CustomTabBarView extends StatelessWidget {
   /// Creates a page view with one child per tab.
   ///
   /// The length of [children] must be the same as the [controller]'s length.
@@ -32,8 +25,7 @@ class CustomTabBarView extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-  })  : _preset = null,
-        builder = null;
+  }) : builderDelegate = null;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -42,7 +34,7 @@ class CustomTabBarView extends StatefulWidget {
   ///
   /// - Rename [chindren] to [tabs].
   /// - Implement [builder] type of [CustomTabBarViewBuilder].
-  const CustomTabBarView.builder({
+  CustomTabBarView.builder({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -50,9 +42,20 @@ class CustomTabBarView extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-    required this.builder,
+    required CustomTabBarViewSimpleBuilder builder,
   })  : children = tabs,
-        _preset = null;
+        builderDelegate = CustomTabBarViewSimpleBuilderDelegate(builder);
+
+  const CustomTabBarView.custom({
+    super.key,
+    List<Widget> tabs = const <Widget>[],
+    this.controller,
+    this.physics,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.viewportFraction = 1.0,
+    this.clipBehavior = Clip.hardEdge,
+    required this.builderDelegate,
+  }) : children = tabs;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -62,7 +65,7 @@ class CustomTabBarView extends StatefulWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  const CustomTabBarView.fade({
+  CustomTabBarView.fade({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -71,8 +74,9 @@ class CustomTabBarView extends StatefulWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        _preset = _EPreset.fade,
-        builder = null;
+        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
+          CustomTabBarViewBuilders().fadeBuilder,
+        );
 
   /// This is a new API derived from TabBarView.
   ///
@@ -82,7 +86,7 @@ class CustomTabBarView extends StatefulWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  const CustomTabBarView.stack({
+  CustomTabBarView.stack({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -91,8 +95,9 @@ class CustomTabBarView extends StatefulWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        _preset = _EPreset.stack,
-        builder = null;
+        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
+          CustomTabBarViewBuilders().stackBuilder,
+        );
 
   /// This is a new API derived from TabBarView.
   ///
@@ -102,7 +107,7 @@ class CustomTabBarView extends StatefulWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  const CustomTabBarView.carousel({
+  CustomTabBarView.carousel({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -111,8 +116,9 @@ class CustomTabBarView extends StatefulWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        _preset = _EPreset.carousel,
-        builder = null;
+        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
+          CustomTabBarViewBuilders().carouselBuilder,
+        );
 
   /// This is a new API derived from TabBarView.
   ///
@@ -122,7 +128,7 @@ class CustomTabBarView extends StatefulWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  const CustomTabBarView.toss1({
+  CustomTabBarView.toss1({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -131,8 +137,9 @@ class CustomTabBarView extends StatefulWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        _preset = _EPreset.toss1,
-        builder = null;
+        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
+          CustomTabBarViewBuilders().toss1Builder,
+        );
 
   /// This is a new API derived from TabBarView.
   ///
@@ -142,7 +149,7 @@ class CustomTabBarView extends StatefulWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  const CustomTabBarView.toss2({
+  CustomTabBarView.toss2({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -151,11 +158,9 @@ class CustomTabBarView extends StatefulWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        _preset = _EPreset.toss2,
-        builder = null;
-
-  /// The preset enum injected by the preset constructor.
-  final _EPreset? _preset;
+        builderDelegate = CustomTabBarViewCustomBuilderDelegate(
+          CustomTabBarViewBuilders().toss2Builder,
+        );
 
   /// This widget's selection and animation state.
   ///
@@ -172,7 +177,7 @@ class CustomTabBarView extends StatefulWidget {
   /// The builder for building the widgets passed in [tabs] individually.
   ///
   /// It must be implemented as a [CustomTabBarViewBuilder] type.
-  final CustomTabBarViewBuilder? builder;
+  final CustomTabBarViewBuilderDelegate? builderDelegate;
 
   /// How the page view should respond to user input.
   ///
@@ -197,76 +202,28 @@ class CustomTabBarView extends StatefulWidget {
   final Clip clipBehavior;
 
   @override
-  State<CustomTabBarView> createState() => _CustomTabBarViewState();
-}
-
-class _CustomTabBarViewState extends State<CustomTabBarView> {
-  late final CustomTabBarViewBuilders _builders;
-  CustomTabBarViewBuilder? _builder;
-
-  @override
-  void initState() {
-    super.initState();
-    _builders = CustomTabBarViewBuilders();
-    _updateBuilder();
-  }
-
-  @override
-  void didUpdateWidget(covariant CustomTabBarView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget._preset != oldWidget._preset ||
-        widget.builder != oldWidget.builder) {
-      setState(() {
-        _updateBuilder();
-      });
-    }
-  }
-
-  void _updateBuilder() {
-    switch (widget._preset) {
-      case _EPreset.fade:
-        _builder = _builders.fadeBuilder;
-        break;
-      case _EPreset.stack:
-        _builder = _builders.stackBuilder;
-        break;
-      case _EPreset.carousel:
-        _builder = _builders.carouselBuilder;
-        break;
-      case _EPreset.toss1:
-        _builder = _builders.toss1Builder;
-        break;
-      case _EPreset.toss2:
-        _builder = _builders.toss2Builder;
-        break;
-      default:
-        _builder = widget.builder;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (_builder == null) {
+    if (builderDelegate == null) {
       return CustomTabBarViewCore(
-        key: widget.key,
-        children: widget.children,
-        controller: widget.controller,
-        physics: widget.physics,
-        dragStartBehavior: widget.dragStartBehavior,
-        viewportFraction: widget.viewportFraction,
-        clipBehavior: widget.clipBehavior,
+        key: key,
+        children: children,
+        controller: controller,
+        physics: physics,
+        dragStartBehavior: dragStartBehavior,
+        viewportFraction: viewportFraction,
+        clipBehavior: clipBehavior,
       );
     }
 
-    return CustomTabBarViewCore.builder(
-      key: widget.key,
-      tabs: widget.children,
-      controller: widget.controller,
-      physics: widget.physics,
-      dragStartBehavior: widget.dragStartBehavior,
-      viewportFraction: widget.viewportFraction,
-      clipBehavior: widget.clipBehavior,
-      builder: _builder,
+    return CustomTabBarViewCore.custom(
+      key: key,
+      tabs: children,
+      controller: controller,
+      physics: physics,
+      dragStartBehavior: dragStartBehavior,
+      viewportFraction: viewportFraction,
+      clipBehavior: clipBehavior,
+      builderDelegate: builderDelegate,
     );
   }
 }

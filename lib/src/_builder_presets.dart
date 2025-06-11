@@ -1,6 +1,4 @@
-import 'package:custom_tabbarview/custom_tabbarview.dart';
-import 'package:flutter/material.dart';
-import 'dart:math' as math;
+part of 'custom_tabbarview.dart';
 
 /// The builder functions that will be used in
 /// the preset constructor of the [CustomTabBarView] are predefined.
@@ -17,7 +15,7 @@ class CustomTabBarViewBuilders {
   // ========================================
   /// A builder that sets opacity to 0% at 50% of the way
   /// through a screen transition.
-  CustomTabBarViewBuilder fadeBuilder =
+  CustomTabBarViewCustomBuilder fadeBuilder =
       (context, pageController, childrenWithKey, index) {
     return AnimatedBuilder(
       animation: pageController,
@@ -40,7 +38,7 @@ class CustomTabBarViewBuilders {
   // ========================================
   /// A builder where the page on the right is stacked
   /// above the page on the left.
-  CustomTabBarViewBuilder stackBuilder =
+  CustomTabBarViewCustomBuilder stackBuilder =
       (context, pageController, childrenWithKey, index) {
     return AnimatedBuilder(
       animation: pageController,
@@ -68,7 +66,7 @@ class CustomTabBarViewBuilders {
   // MARK: carouselBuilder
   // ========================================
   /// This builder adds a fade to add naturalness to carousel-style transitions.
-  CustomTabBarViewBuilder carouselBuilder =
+  CustomTabBarViewCustomBuilder carouselBuilder =
       (context, pageController, childrenWithKey, index) {
     return AnimatedBuilder(
       animation: pageController,
@@ -96,7 +94,7 @@ class CustomTabBarViewBuilders {
   // MARK: toss1Builder
   // ========================================
   /// Builders that have implemented the transitions used in Toss apps.
-  CustomTabBarViewBuilder toss1Builder =
+  CustomTabBarViewCustomBuilder toss1Builder =
       (context, pageController, childrenWithKey, index) {
     return AnimatedBuilder(
       animation: pageController,
@@ -120,7 +118,7 @@ class CustomTabBarViewBuilders {
   // MARK: toss2Builder
   // ========================================
   /// Builders that have implemented the transitions used in Toss apps.
-  CustomTabBarViewBuilder toss2Builder =
+  CustomTabBarViewCustomBuilder toss2Builder =
       (context, pageController, childrenWithKey, index) {
     return AnimatedBuilder(
       animation: pageController,
