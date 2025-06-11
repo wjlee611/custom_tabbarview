@@ -31,6 +31,8 @@ typedef CustomTabBarViewBuilder = Widget Function(
 );
 
 abstract class CustomTabBarViewBuilderBaseDelegate {
+  const CustomTabBarViewBuilderBaseDelegate();
+
   Widget build(
     BuildContext context,
     PageController pageController,
@@ -48,7 +50,7 @@ class CustomTabBarViewCustomBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
   final CustomTabBarViewCustomBuilder builder;
 
-  CustomTabBarViewCustomBuilderDelegate(this.builder);
+  const CustomTabBarViewCustomBuilderDelegate(this.builder);
 
   @override
   Widget build(
@@ -65,7 +67,7 @@ class CustomTabBarViewBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
   final CustomTabBarViewBuilder builder;
 
-  CustomTabBarViewBuilderDelegate(this.builder);
+  const CustomTabBarViewBuilderDelegate(this.builder);
 
   @override
   Widget build(
@@ -74,10 +76,19 @@ class CustomTabBarViewBuilderDelegate
     List<Widget> childrenWithKey,
     int index,
   ) {
-    return builder(
-      context,
-      calcOffset(pageController, index),
-      childrenWithKey[index],
+    return AnimatedBuilder(
+      animation: pageController,
+      builder: (context, child) {
+        final page =
+            pageController.page ?? pageController.initialPage.toDouble();
+        final offset = (page - index) * pageController.viewportFraction;
+        return builder(
+          context,
+          offset,
+          child ?? childrenWithKey[index],
+        );
+      },
+      child: childrenWithKey[index],
     );
   }
 }

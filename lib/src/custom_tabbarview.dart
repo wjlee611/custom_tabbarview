@@ -25,8 +25,7 @@ class CustomTabBarView extends StatelessWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-  })  : builder = null,
-        builderDelegate = null;
+  }) : builderDelegate = null;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -45,7 +44,6 @@ class CustomTabBarView extends StatelessWidget {
     this.clipBehavior = Clip.hardEdge,
     required CustomTabBarViewBuilder builder,
   })  : children = tabs,
-        builder = builder,
         builderDelegate = CustomTabBarViewBuilderDelegate(builder);
 
   const CustomTabBarView.custom({
@@ -57,8 +55,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
     required this.builderDelegate,
-  })  : children = tabs,
-        builder = null;
+  }) : children = tabs;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -68,7 +65,7 @@ class CustomTabBarView extends StatelessWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  CustomTabBarView.fade({
+  const CustomTabBarView.fade({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -77,8 +74,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        builder = null,
-        builderDelegate = _CustomTabBarViewFadeBuilderDelegate();
+        builderDelegate = const _CustomTabBarViewFadeBuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -88,7 +84,7 @@ class CustomTabBarView extends StatelessWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  CustomTabBarView.stack({
+  const CustomTabBarView.stack({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -97,8 +93,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        builder = null,
-        builderDelegate = _CustomTabBarViewStackBuilderDelegate();
+        builderDelegate = const _CustomTabBarViewStackBuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -108,7 +103,7 @@ class CustomTabBarView extends StatelessWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  CustomTabBarView.carousel({
+  const CustomTabBarView.carousel({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -117,8 +112,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        builder = null,
-        builderDelegate = _CustomTabBarViewCarouselBuilderDelegate();
+        builderDelegate = const _CustomTabBarViewCarouselBuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -128,7 +122,7 @@ class CustomTabBarView extends StatelessWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  CustomTabBarView.toss1({
+  const CustomTabBarView.toss1({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -137,8 +131,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        builder = null,
-        builderDelegate = _CustomTabBarViewToss1BuilderDelegate();
+        builderDelegate = const _CustomTabBarViewToss1BuilderDelegate();
 
   /// This is a new API derived from TabBarView.
   ///
@@ -148,7 +141,7 @@ class CustomTabBarView extends StatelessWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  CustomTabBarView.toss2({
+  const CustomTabBarView.toss2({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -157,8 +150,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
-        builder = null,
-        builderDelegate = _CustomTabBarViewToss2BuilderDelegate();
+        builderDelegate = const _CustomTabBarViewToss2BuilderDelegate();
 
   /// This widget's selection and animation state.
   ///
@@ -175,8 +167,6 @@ class CustomTabBarView extends StatelessWidget {
   /// The builder for building the widgets passed in [tabs] individually.
   ///
   /// It must be implemented as a [CustomTabBarViewBuilder] type.
-  final CustomTabBarViewBuilder? builder;
-
   final CustomTabBarViewBuilderBaseDelegate? builderDelegate;
 
   /// How the page view should respond to user input.
@@ -203,40 +193,27 @@ class CustomTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (builder != null) {
-      return CustomTabBarViewCore.builder(
+    if (builderDelegate == null) {
+      return CustomTabBarViewCore(
         key: key,
-        tabs: children,
+        children: children,
         controller: controller,
         physics: physics,
         dragStartBehavior: dragStartBehavior,
         viewportFraction: viewportFraction,
         clipBehavior: clipBehavior,
-        builder: builder!,
       );
     }
 
-    if (builderDelegate != null) {
-      return CustomTabBarViewCore.custom(
-        key: key,
-        tabs: children,
-        controller: controller,
-        physics: physics,
-        dragStartBehavior: dragStartBehavior,
-        viewportFraction: viewportFraction,
-        clipBehavior: clipBehavior,
-        builderDelegate: builderDelegate,
-      );
-    }
-
-    return CustomTabBarViewCore(
+    return CustomTabBarViewCore.custom(
       key: key,
-      children: children,
+      tabs: children,
       controller: controller,
       physics: physics,
       dragStartBehavior: dragStartBehavior,
       viewportFraction: viewportFraction,
       clipBehavior: clipBehavior,
+      builderDelegate: builderDelegate,
     );
   }
 }

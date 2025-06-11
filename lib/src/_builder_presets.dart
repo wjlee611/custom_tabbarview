@@ -8,6 +8,8 @@ part of 'custom_tabbarview.dart';
 /// through a screen transition.
 class _CustomTabBarViewFadeBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  const _CustomTabBarViewFadeBuilderDelegate();
+
   @override
   Widget build(
     BuildContext context,
@@ -40,6 +42,8 @@ class _CustomTabBarViewFadeBuilderDelegate
 /// above the page on the left.
 class _CustomTabBarViewStackBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  const _CustomTabBarViewStackBuilderDelegate();
+
   @override
   Widget build(
     BuildContext context,
@@ -77,6 +81,8 @@ class _CustomTabBarViewStackBuilderDelegate
 /// This builder adds a fade to add naturalness to carousel-style transitions.
 class _CustomTabBarViewCarouselBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  const _CustomTabBarViewCarouselBuilderDelegate();
+
   @override
   Widget build(
     BuildContext context,
@@ -114,6 +120,8 @@ class _CustomTabBarViewCarouselBuilderDelegate
 /// Builders that have implemented the transitions used in Toss apps.
 class _CustomTabBarViewToss1BuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  const _CustomTabBarViewToss1BuilderDelegate();
+
   @override
   Widget build(
     BuildContext context,
@@ -147,6 +155,8 @@ class _CustomTabBarViewToss1BuilderDelegate
 /// Builders that have implemented the transitions used in Toss apps.
 class _CustomTabBarViewToss2BuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  const _CustomTabBarViewToss2BuilderDelegate();
+
   @override
   Widget build(
     BuildContext context,
