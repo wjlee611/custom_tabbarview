@@ -25,7 +25,8 @@ class CustomTabBarView extends StatelessWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-  }) : builderDelegate = null;
+  })  : builder = null,
+        builderDelegate = null;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -42,9 +43,10 @@ class CustomTabBarView extends StatelessWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-    required CustomTabBarViewSimpleBuilder builder,
+    required CustomTabBarViewBuilder builder,
   })  : children = tabs,
-        builderDelegate = CustomTabBarViewSimpleBuilderDelegate(builder);
+        builder = builder,
+        builderDelegate = CustomTabBarViewBuilderDelegate(builder);
 
   const CustomTabBarView.custom({
     super.key,
@@ -55,7 +57,8 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
     required this.builderDelegate,
-  }) : children = tabs;
+  })  : children = tabs,
+        builder = null;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -74,6 +77,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
+        builder = null,
         builderDelegate = CustomTabBarViewCustomBuilderDelegate(
           CustomTabBarViewBuilders().fadeBuilder,
         );
@@ -95,6 +99,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
+        builder = null,
         builderDelegate = CustomTabBarViewCustomBuilderDelegate(
           CustomTabBarViewBuilders().stackBuilder,
         );
@@ -116,6 +121,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
+        builder = null,
         builderDelegate = CustomTabBarViewCustomBuilderDelegate(
           CustomTabBarViewBuilders().carouselBuilder,
         );
@@ -137,6 +143,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
+        builder = null,
         builderDelegate = CustomTabBarViewCustomBuilderDelegate(
           CustomTabBarViewBuilders().toss1Builder,
         );
@@ -158,6 +165,7 @@ class CustomTabBarView extends StatelessWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
   })  : children = tabs,
+        builder = null,
         builderDelegate = CustomTabBarViewCustomBuilderDelegate(
           CustomTabBarViewBuilders().toss2Builder,
         );
@@ -177,7 +185,9 @@ class CustomTabBarView extends StatelessWidget {
   /// The builder for building the widgets passed in [tabs] individually.
   ///
   /// It must be implemented as a [CustomTabBarViewBuilder] type.
-  final CustomTabBarViewBuilderDelegate? builderDelegate;
+  final CustomTabBarViewBuilder? builder;
+
+  final CustomTabBarViewBuilderBaseDelegate? builderDelegate;
 
   /// How the page view should respond to user input.
   ///
@@ -203,27 +213,40 @@ class CustomTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (builderDelegate == null) {
-      return CustomTabBarViewCore(
+    if (builder != null) {
+      return CustomTabBarViewCore.builder(
         key: key,
-        children: children,
+        tabs: children,
         controller: controller,
         physics: physics,
         dragStartBehavior: dragStartBehavior,
         viewportFraction: viewportFraction,
         clipBehavior: clipBehavior,
+        builder: builder!,
       );
     }
 
-    return CustomTabBarViewCore.custom(
+    if (builderDelegate != null) {
+      return CustomTabBarViewCore.custom(
+        key: key,
+        tabs: children,
+        controller: controller,
+        physics: physics,
+        dragStartBehavior: dragStartBehavior,
+        viewportFraction: viewportFraction,
+        clipBehavior: clipBehavior,
+        builderDelegate: builderDelegate,
+      );
+    }
+
+    return CustomTabBarViewCore(
       key: key,
-      tabs: children,
+      children: children,
       controller: controller,
       physics: physics,
       dragStartBehavior: dragStartBehavior,
       viewportFraction: viewportFraction,
       clipBehavior: clipBehavior,
-      builderDelegate: builderDelegate,
     );
   }
 }

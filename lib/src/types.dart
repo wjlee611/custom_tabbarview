@@ -24,13 +24,13 @@ typedef CustomTabBarViewCustomBuilder = Widget Function(
   int index,
 );
 
-typedef CustomTabBarViewSimpleBuilder = Widget Function(
+typedef CustomTabBarViewBuilder = Widget Function(
   BuildContext context,
   double offset,
   Widget child,
 );
 
-abstract class CustomTabBarViewBuilderDelegate {
+abstract class CustomTabBarViewBuilderBaseDelegate {
   Widget build(
     BuildContext context,
     PageController pageController,
@@ -45,7 +45,7 @@ abstract class CustomTabBarViewBuilderDelegate {
 }
 
 class CustomTabBarViewCustomBuilderDelegate
-    extends CustomTabBarViewBuilderDelegate {
+    extends CustomTabBarViewBuilderBaseDelegate {
   final CustomTabBarViewCustomBuilder builder;
 
   CustomTabBarViewCustomBuilderDelegate(this.builder);
@@ -61,11 +61,11 @@ class CustomTabBarViewCustomBuilderDelegate
   }
 }
 
-class CustomTabBarViewSimpleBuilderDelegate
-    extends CustomTabBarViewBuilderDelegate {
-  final CustomTabBarViewSimpleBuilder builder;
+class CustomTabBarViewBuilderDelegate
+    extends CustomTabBarViewBuilderBaseDelegate {
+  final CustomTabBarViewBuilder builder;
 
-  CustomTabBarViewSimpleBuilderDelegate(this.builder);
+  CustomTabBarViewBuilderDelegate(this.builder);
 
   @override
   Widget build(

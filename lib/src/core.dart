@@ -56,7 +56,8 @@ class CustomTabBarViewCore extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-  }) : builderDelegate = null;
+  })  : builder = null,
+        builderDelegate = null;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -73,9 +74,10 @@ class CustomTabBarViewCore extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-    required CustomTabBarViewSimpleBuilder builder,
+    required CustomTabBarViewBuilder builder,
   })  : children = tabs,
-        builderDelegate = CustomTabBarViewSimpleBuilderDelegate(builder);
+        builder = builder,
+        builderDelegate = CustomTabBarViewBuilderDelegate(builder);
 
   const CustomTabBarViewCore.custom({
     super.key,
@@ -86,7 +88,8 @@ class CustomTabBarViewCore extends StatefulWidget {
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
     required this.builderDelegate,
-  }) : children = tabs;
+  })  : children = tabs,
+        builder = null;
 
   /// This widget's selection and animation state.
   ///
@@ -103,7 +106,9 @@ class CustomTabBarViewCore extends StatefulWidget {
   /// The builder for building the widgets passed in [tabs] individually.
   ///
   /// It must be implemented as a [CustomTabBarViewBuilder] type.
-  final CustomTabBarViewBuilderDelegate? builderDelegate;
+  final CustomTabBarViewBuilder? builder;
+
+  final CustomTabBarViewBuilderBaseDelegate? builderDelegate;
 
   /// How the page view should respond to user input.
   ///
@@ -412,11 +417,33 @@ class _CustomTabBarViewCoreState extends State<CustomTabBarViewCore> {
             : SliverChildBuilderDelegate(
                 (context, index) => KeyedSubtree(
                   key: _childrenWithKey[index].key,
-                  child: widget.builderDelegate!.build(
-                    context,
-                    _pageController!,
-                    _childrenWithKey,
-                    index,
+                  child: Builder(
+                    builder: (context) {
+                      if (widget.builder != null && _pageController != null) {
+                        return AnimatedBuilder(
+                          animation: _pageController!,
+                          builder: (context, child) {
+                            final page = _pageController!.page ??
+                                _pageController!.initialPage.toDouble();
+                            final offset = (page - index) *
+                                _pageController!.viewportFraction;
+                            return widget.builder!(
+                              context,
+                              offset,
+                              child ?? _childrenWithKey[index],
+                            );
+                          },
+                          child: _childrenWithKey[index],
+                        );
+                      }
+
+                      return widget.builderDelegate!.build(
+                        context,
+                        _pageController!,
+                        _childrenWithKey,
+                        index,
+                      );
+                    },
                   ),
                 ),
                 findChildIndexCallback: (key) {

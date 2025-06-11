@@ -68,37 +68,24 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
         title: const Text('CustomTabBarView Demo'),
       ),
       backgroundColor: Colors.white,
-      body: CustomTabBarView.custom(
+      body: CustomTabBarView.builder(
         controller: _tabController,
         physics: const PageScrollPhysics(),
         dragStartBehavior: DragStartBehavior.down,
         tabs: _children,
-        builderDelegate: CustomTabBarViewCustomBuilderDelegate(
-          (context, pageController, childrenWithKey, index) {
-            return AnimatedBuilder(
-              animation: pageController,
-              builder: (context, child) {
-                final page = pageController.page ??
-                    pageController.initialPage.toDouble();
-                final offset = (page - index) * pageController.viewportFraction;
+        builder: (context, offset, child) {
+          final dx = offset * width * 0.8;
+          final scale = 1 - offset.abs() * 0.1;
+          final opacity = 1 - offset.abs() * 2;
 
-                final dx = offset * width * 0.8;
-                final scale = 1 - offset.abs() * 0.1;
-                final opacity = 1 - offset.abs() * 2;
-
-                return Opacity(
-                  opacity: opacity.clamp(0.0, 1.0),
-                  child: Transform.scale(
-                    scale: scale,
-                    child: Transform.translate(
-                        offset: Offset(dx, 0), child: child),
-                  ),
-                );
-              },
-              child: childrenWithKey[index],
-            );
-          },
-        ),
+          return Opacity(
+            opacity: opacity.clamp(0.0, 1.0),
+            child: Transform.scale(
+              scale: scale,
+              child: Transform.translate(offset: Offset(dx, 0), child: child),
+            ),
+          );
+        },
       ),
       bottomNavigationBar: SafeArea(
         child: Transform.flip(
