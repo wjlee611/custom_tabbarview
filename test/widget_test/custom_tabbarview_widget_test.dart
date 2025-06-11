@@ -85,9 +85,105 @@ void main() {
           home: CustomTabBarView.builder(
             controller: controller,
             tabs: tabs,
-            builder: (context, pageController, childrenWithKey, index) {
-              return childrenWithKey[index];
+            builder: (context, offset, child) {
+              return child;
             },
+          ),
+        ),
+      );
+      expect(find.text('Page 1'), findsOneWidget);
+
+      controller.animateTo(3, duration: Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Page 3'), findsOneWidget);
+
+      controller.animateTo(1, duration: Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Page 2'), findsOneWidget);
+      expect(isHomePageInitialized, isFalse);
+
+      controller.animateTo(2, duration: Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Home Page 1 times built'), findsOneWidget);
+      expect(isHomePageInitialized, isTrue);
+    });
+
+    testWidgets('custom constructor renders children 1',
+        (WidgetTester tester) async {
+      List<Widget> tabs = [
+        const Page1(),
+        const Page2(),
+        HomePage(
+          onInit: () {
+            isHomePageInitialized = true;
+          },
+        ),
+        const Page3(),
+        const Page4(),
+      ];
+      final controller = TabController(
+        length: tabs.length,
+        vsync: const TestVSync(),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CustomTabBarView.custom(
+            controller: controller,
+            tabs: tabs,
+            builderDelegate: CustomTabBarViewCustomBuilderDelegate(
+              (context, pageController, childrenWithKey, index) {
+                return childrenWithKey[index];
+              },
+            ),
+          ),
+        ),
+      );
+      expect(find.text('Page 1'), findsOneWidget);
+
+      controller.animateTo(3, duration: Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Page 3'), findsOneWidget);
+
+      controller.animateTo(1, duration: Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Page 2'), findsOneWidget);
+      expect(isHomePageInitialized, isFalse);
+
+      controller.animateTo(2, duration: Duration(seconds: 1));
+      await tester.pumpAndSettle();
+      expect(find.text('Home Page 1 times built'), findsOneWidget);
+      expect(isHomePageInitialized, isTrue);
+    });
+
+    testWidgets('custom constructor renders children 2',
+        (WidgetTester tester) async {
+      List<Widget> tabs = [
+        const Page1(),
+        const Page2(),
+        HomePage(
+          onInit: () {
+            isHomePageInitialized = true;
+          },
+        ),
+        const Page3(),
+        const Page4(),
+      ];
+      final controller = TabController(
+        length: tabs.length,
+        vsync: const TestVSync(),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CustomTabBarView.custom(
+            controller: controller,
+            tabs: tabs,
+            builderDelegate: CustomTabBarViewBuilderDelegate(
+              (context, offset, child) {
+                return child;
+              },
+            ),
           ),
         ),
       );
@@ -400,9 +496,105 @@ void main() {
           home: CustomTabBarView.builder(
             controller: controller,
             tabs: tabs,
-            builder: (context, pageController, childrenWithKey, index) {
-              return childrenWithKey[index];
+            builder: (context, offset, child) {
+              return child;
             },
+          ),
+        ),
+      );
+      expect(find.text('Page 1'), findsOneWidget);
+
+      controller.index = 3;
+      await tester.pumpAndSettle();
+      expect(find.text('Page 3'), findsOneWidget);
+
+      controller.index = 1;
+      await tester.pumpAndSettle();
+      expect(find.text('Page 2'), findsOneWidget);
+      expect(isHomePageInitialized, isFalse);
+
+      controller.index = 2;
+      await tester.pumpAndSettle();
+      expect(find.text('Home Page 1 times built'), findsOneWidget);
+      expect(isHomePageInitialized, isTrue);
+    });
+
+    testWidgets('custom constructor renders children 1',
+        (WidgetTester tester) async {
+      List<Widget> tabs = [
+        const Page1(),
+        const Page2(),
+        HomePage(
+          onInit: () {
+            isHomePageInitialized = true;
+          },
+        ),
+        const Page3(),
+        const Page4(),
+      ];
+      final controller = TabController(
+        length: tabs.length,
+        vsync: const TestVSync(),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CustomTabBarView.custom(
+            controller: controller,
+            tabs: tabs,
+            builderDelegate: CustomTabBarViewCustomBuilderDelegate(
+              (context, pageController, childrenWithKey, index) {
+                return childrenWithKey[index];
+              },
+            ),
+          ),
+        ),
+      );
+      expect(find.text('Page 1'), findsOneWidget);
+
+      controller.index = 3;
+      await tester.pumpAndSettle();
+      expect(find.text('Page 3'), findsOneWidget);
+
+      controller.index = 1;
+      await tester.pumpAndSettle();
+      expect(find.text('Page 2'), findsOneWidget);
+      expect(isHomePageInitialized, isFalse);
+
+      controller.index = 2;
+      await tester.pumpAndSettle();
+      expect(find.text('Home Page 1 times built'), findsOneWidget);
+      expect(isHomePageInitialized, isTrue);
+    });
+
+    testWidgets('custom constructor renders children 2',
+        (WidgetTester tester) async {
+      List<Widget> tabs = [
+        const Page1(),
+        const Page2(),
+        HomePage(
+          onInit: () {
+            isHomePageInitialized = true;
+          },
+        ),
+        const Page3(),
+        const Page4(),
+      ];
+      final controller = TabController(
+        length: tabs.length,
+        vsync: const TestVSync(),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CustomTabBarView.custom(
+            controller: controller,
+            tabs: tabs,
+            builderDelegate: CustomTabBarViewBuilderDelegate(
+              (context, offset, child) {
+                return child;
+              },
+            ),
           ),
         ),
       );

@@ -56,7 +56,7 @@ class CustomTabBarViewCore extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-  }) : builder = null;
+  }) : builderDelegate = null;
 
   /// This is a new API derived from TabBarView.
   ///
@@ -64,8 +64,8 @@ class CustomTabBarViewCore extends StatefulWidget {
   /// and the migration guide is as follows:
   ///
   /// - Rename [chindren] to [tabs].
-  /// - Implement [builder] type of [CustomTabBarViewBuilder].
-  const CustomTabBarViewCore.builder({
+  /// - Implement [builderDelegate] inheritance of [CustomTabBarViewBuilderBaseDelegate].
+  const CustomTabBarViewCore.custom({
     super.key,
     List<Widget> tabs = const <Widget>[],
     this.controller,
@@ -73,7 +73,7 @@ class CustomTabBarViewCore extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
-    required this.builder,
+    required this.builderDelegate,
   }) : children = tabs;
 
   /// This widget's selection and animation state.
@@ -88,10 +88,12 @@ class CustomTabBarViewCore extends StatefulWidget {
   /// list, as well as the [controller]'s [TabController.length].
   final List<Widget> children;
 
-  /// The builder for building the widgets passed in [tabs] individually.
+  /// The builderDelegate for building the widgets passed in [tabs] individually.
   ///
-  /// It must be implemented as a [CustomTabBarViewBuilder] type.
-  final CustomTabBarViewBuilder? builder;
+  /// ---
+  ///
+  /// {@macro CustomTabBarViewBuilderBaseDelegate}
+  final CustomTabBarViewBuilderBaseDelegate? builderDelegate;
 
   /// How the page view should respond to user input.
   ///
@@ -393,14 +395,14 @@ class _CustomTabBarViewCoreState extends State<CustomTabBarViewCore> {
         physics: widget.physics == null
             ? const PageScrollPhysics().applyTo(const ClampingScrollPhysics())
             : const PageScrollPhysics().applyTo(widget.physics),
-        childrenDelegate: widget.builder == null
+        childrenDelegate: widget.builderDelegate == null
             ? SliverChildListDelegate(
                 _childrenWithKey,
               )
             : SliverChildBuilderDelegate(
                 (context, index) => KeyedSubtree(
                   key: _childrenWithKey[index].key,
-                  child: widget.builder!(
+                  child: widget.builderDelegate!.build(
                     context,
                     _pageController!,
                     _childrenWithKey,
