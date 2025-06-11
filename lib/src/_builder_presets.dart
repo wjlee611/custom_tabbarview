@@ -4,10 +4,15 @@ part of 'custom_tabbarview.dart';
 // MARK: fadeBuilder
 // ========================================
 
+/// {@template _CustomTabBarViewFadeBuilderDelegate}
+///
 /// A builder that sets opacity to 0% at 50% of the way
 /// through a screen transition.
+///
+/// {@endtemplate}
 class _CustomTabBarViewFadeBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  /// {@macro _CustomTabBarViewFadeBuilderDelegate}
   const _CustomTabBarViewFadeBuilderDelegate();
 
   @override
@@ -38,10 +43,15 @@ class _CustomTabBarViewFadeBuilderDelegate
 // MARK: stackBuilder
 // ========================================
 
+/// {@template _CustomTabBarViewStackBuilderDelegate}
+///
 /// A builder where the page on the right is stacked
 /// above the page on the left.
+///
+/// {@endtemplate}
 class _CustomTabBarViewStackBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  /// {@macro _CustomTabBarViewStackBuilderDelegate}
   const _CustomTabBarViewStackBuilderDelegate();
 
   @override
@@ -78,9 +88,14 @@ class _CustomTabBarViewStackBuilderDelegate
 // MARK: carouselBuilder
 // ========================================
 
+/// {@template _CustomTabBarViewCarouselBuilderDelegate}
+///
 /// This builder adds a fade to add naturalness to carousel-style transitions.
+///
+/// {@endtemplate}
 class _CustomTabBarViewCarouselBuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  /// {@macro _CustomTabBarViewCarouselBuilderDelegate}
   const _CustomTabBarViewCarouselBuilderDelegate();
 
   @override
@@ -117,9 +132,14 @@ class _CustomTabBarViewCarouselBuilderDelegate
 // MARK: toss1Builder
 // ========================================
 
+/// {@template _CustomTabBarViewToss1BuilderDelegate}
+///
 /// Builders that have implemented the transitions used in Toss apps.
+///
+/// {@endtemplate}
 class _CustomTabBarViewToss1BuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  /// {@macro _CustomTabBarViewToss1BuilderDelegate}
   const _CustomTabBarViewToss1BuilderDelegate();
 
   @override
@@ -152,9 +172,14 @@ class _CustomTabBarViewToss1BuilderDelegate
 // MARK: toss2Builder
 // ========================================
 
+/// {@template _CustomTabBarViewToss2BuilderDelegate}
+///
 /// Builders that have implemented the transitions used in Toss apps.
+///
+/// {@endtemplate}
 class _CustomTabBarViewToss2BuilderDelegate
     extends CustomTabBarViewBuilderBaseDelegate {
+  /// {@macro _CustomTabBarViewToss2BuilderDelegate}
   const _CustomTabBarViewToss2BuilderDelegate();
 
   @override

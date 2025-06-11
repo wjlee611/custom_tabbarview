@@ -9,10 +9,7 @@ part '_builder_presets.dart';
 /// This is a new API derived from TabBarView.
 ///
 /// The basic usage is almost identical to TabBarView,
-/// and the migration guide is as follows:
-///
-/// - Rename [chindren] to [tabs].
-/// - Implement [builder] type of [CustomTabBarViewBuilder].
+/// but with enhanced customization capabilities.
 class CustomTabBarView extends StatelessWidget {
   /// Creates a page view with one child per tab.
   ///
@@ -34,6 +31,11 @@ class CustomTabBarView extends StatelessWidget {
   ///
   /// - Rename [chindren] to [tabs].
   /// - Implement [builder] type of [CustomTabBarViewBuilder].
+  ///
+  /// ---
+  /// ### builder
+  ///
+  /// {@macro CustomTabBarViewBuilder}
   CustomTabBarView.builder({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -46,6 +48,13 @@ class CustomTabBarView extends StatelessWidget {
   })  : children = tabs,
         builderDelegate = CustomTabBarViewBuilderDelegate(builder);
 
+  /// This is a new API derived from TabBarView.
+  ///
+  /// The basic usage is almost identical to TabBarView,
+  /// and the migration guide is as follows:
+  ///
+  /// - Rename [chindren] to [tabs].
+  /// - Implement [builderDelegate] inheritance of [CustomTabBarViewBuilderBaseDelegate].
   const CustomTabBarView.custom({
     super.key,
     List<Widget> tabs = const <Widget>[],
@@ -164,9 +173,11 @@ class CustomTabBarView extends StatelessWidget {
   /// list, as well as the [controller]'s [TabController.length].
   final List<Widget> children;
 
-  /// The builder for building the widgets passed in [tabs] individually.
+  /// The builderDelegate for building the widgets passed in [tabs] individually.
   ///
-  /// It must be implemented as a [CustomTabBarViewBuilder] type.
+  /// ---
+  ///
+  /// {@macro CustomTabBarViewBuilderBaseDelegate}
   final CustomTabBarViewBuilderBaseDelegate? builderDelegate;
 
   /// How the page view should respond to user input.
