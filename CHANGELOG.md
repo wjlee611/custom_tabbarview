@@ -1,13 +1,14 @@
-## 0.1.0
+## 1.0.0
 
-First Stable Release!
+- Update github templates [#9](https://github.com/wjlee611/custom_tabbarview/issues/9)
+- BREAKING: Add custom constructor [#10](https://github.com/wjlee611/custom_tabbarview/issues/10)
+
+## 0.1.0
 
 - Add widget test code [#7](https://github.com/wjlee611/custom_tabbarview/issues/7)
   - With github action ci
 
 ## 0.0.1
-
-Initial release.
 
 - Add github templates [#1](https://github.com/wjlee611/custom_tabbarview/issues/1)
 - Init example project [#2](https://github.com/wjlee611/custom_tabbarview/issues/2)
