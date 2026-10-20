@@ -1,4 +1,4 @@
-library custom_tabbarview;
+library;
 
 export 'src/custom_tabbarview.dart';
 export 'src/types.dart';

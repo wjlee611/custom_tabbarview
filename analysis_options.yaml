@@ -8,3 +8,7 @@ linter:
   rules:
     - invalid_runtime_check_with_js_interop_types: false
     - unintended_html_in_doc_comment: false
+
+analyzer:
+  exclude:
+    - build/**

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   custom_tabbarview:
     path: ../
+  material_ui: ^1.0.0
 
 dev_dependencies:
   flutter_test:
