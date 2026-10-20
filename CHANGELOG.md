@@ -1,3 +1,9 @@
+## 2.0.0
+
+- Fix animation disabled in RTL [#14](https://github.com/wjlee611/custom_tabbarview/issues/14)
+- BREAKING: Separate material UI from Flutter SDK [#15](https://github.com/wjlee611/custom_tabbarview/issues/15)
+  - Requires `material_ui` and Flutter 3.44 or later (see the migration guide in README)
+
 ## 1.0.0
 
 - Update github templates [#9](https://github.com/wjlee611/custom_tabbarview/issues/9)
