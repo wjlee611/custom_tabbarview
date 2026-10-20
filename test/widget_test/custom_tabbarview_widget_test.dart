@@ -830,4 +830,78 @@ void main() {
       expect(isHomePageInitialized, isTrue);
     });
   });
+
+  // ========================================
+  // MARK: rtl
+  // ========================================
+  group('CustomTabBarView - rtl', () {
+    final presets = <String, _PresetBuilder>{
+      'fade': (controller, tabs) =>
+          CustomTabBarView.fade(controller: controller, tabs: tabs),
+      'stack': (controller, tabs) =>
+          CustomTabBarView.stack(controller: controller, tabs: tabs),
+      'carousel': (controller, tabs) =>
+          CustomTabBarView.carousel(controller: controller, tabs: tabs),
+      'toss1': (controller, tabs) =>
+          CustomTabBarView.toss1(controller: controller, tabs: tabs),
+      'toss2': (controller, tabs) =>
+          CustomTabBarView.toss2(controller: controller, tabs: tabs),
+    };
+
+    for (final MapEntry(key: name, value: build) in presets.entries) {
+      testWidgets('$name constructor mirrors the transition in RTL',
+          (WidgetTester tester) async {
+        final ltr = await _sampleOutgoingPage(tester, TextDirection.ltr, build);
+        final rtl = await _sampleOutgoingPage(tester, TextDirection.rtl, build);
+
+        expect(ltr.any((dx) => dx.abs() > 1), isTrue);
+        for (var i = 0; i < ltr.length; i++) {
+          expect(rtl[i], moreOrLessEquals(-ltr[i], epsilon: 0.01));
+        }
+      });
+    }
+  });
+}
+
+typedef _PresetBuilder = CustomTabBarView Function(
+  TabController controller,
+  List<Widget> tabs,
+);
+
+/// Builds [build] in [textDirection], animates from the first tab to the
+/// second, and returns how far the outgoing page's center is from the center
+/// of the view at each sampled frame of the transition.
+Future<List<double>> _sampleOutgoingPage(
+  WidgetTester tester,
+  TextDirection textDirection,
+  _PresetBuilder build,
+) async {
+  final tabs = [const Page1(), const Page2()];
+  final controller = TabController(
+    length: tabs.length,
+    vsync: const TestVSync(),
+  );
+
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Directionality(
+        textDirection: textDirection,
+        child: build(controller, tabs),
+      ),
+    ),
+  );
+  final center = tester.getCenter(find.byType(CustomTabBarView)).dx;
+
+  controller.animateTo(1);
+  final offsets = <double>[];
+  for (var i = 0; i < 5; i++) {
+    await tester.pump(const Duration(milliseconds: 50));
+    offsets.add(tester.getCenter(find.text('Page 1')).dx - center);
+  }
+  await tester.pumpAndSettle();
+  expect(tester.getCenter(find.text('Page 2')).dx, moreOrLessEquals(center));
+
+  await tester.pumpWidget(const SizedBox());
+  controller.dispose();
+  return offsets;
 }
