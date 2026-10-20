@@ -36,7 +36,8 @@ typedef CustomTabBarViewCustomBuilder = Widget Function(
 ///
 /// - [context]: [BuildContext] for the widget.
 /// - [offset]: The offset value for each widget in the TabBarView.\
-///   1: left / 0: center / -1: right
+///   1: left / 0: center / -1: right (mirrored in RTL)\
+///   Flip the sign of horizontal translations when the text direction is RTL.
 /// - [widget]: Each child widget of tabs.
 ///
 /// {@endtemplate}
@@ -77,7 +78,7 @@ abstract class CustomTabBarViewBuilderBaseDelegate {
   /// Based on the PageController and the current index,
   /// calculate the offset value for the widget at that index.
   ///
-  /// 1: left / 0: center / -1: right
+  /// 1: left / 0: center / -1: right (mirrored in RTL)
   double calcOffset(PageController pageController, int index) {
     final page = pageController.page ?? pageController.initialPage.toDouble();
     return (page - index) * pageController.viewportFraction;

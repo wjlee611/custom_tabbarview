@@ -62,12 +62,17 @@ class _CustomTabBarViewStackBuilderDelegate
     int index,
   ) {
     final width = MediaQuery.sizeOf(context).width;
+    final dxSign = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
         final offset = calcOffset(pageController, index);
 
-        final dx = (offset > 0 ? offset : -math.log(1 - offset)) * width * 0.8;
+        final dx =
+            dxSign *
+            (offset > 0 ? offset : -math.log(1 - offset)) *
+            width *
+            0.8;
         final scale = 1 - offset * 0.2;
         final opacity = 1 - offset.abs();
 
@@ -106,12 +111,13 @@ class _CustomTabBarViewCarouselBuilderDelegate
     int index,
   ) {
     final width = MediaQuery.sizeOf(context).width;
+    final dxSign = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
         final offset = calcOffset(pageController, index);
 
-        final dx = offset * width * 0.8;
+        final dx = dxSign * offset * width * 0.8;
         final scale = 1 - offset.abs() * 0.1;
         final opacity = 1 - offset.abs() * 2;
 
@@ -150,12 +156,13 @@ class _CustomTabBarViewToss1BuilderDelegate
     int index,
   ) {
     final width = MediaQuery.sizeOf(context).width;
+    final dxSign = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
         final offset = calcOffset(pageController, index);
 
-        final dx = offset * width * 0.95;
+        final dx = dxSign * offset * width * 0.95;
         final opacity = 1 - offset.abs() * 1.2;
 
         return Opacity(
