@@ -35,6 +35,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  TextDirection _textDirection = TextDirection.ltr;
   final List<Widget> _children = [
     const HomePage(),
     const Page1(),
@@ -59,80 +60,105 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  void _toggleTextDirection() {
+    setState(() {
+      _textDirection = _textDirection == TextDirection.ltr
+          ? TextDirection.rtl
+          : TextDirection.ltr;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('CustomTabBarView Demo'),
-      ),
-      backgroundColor: Colors.white,
-      body: CustomTabBarView.custom(
-        controller: _tabController,
-        physics: const PageScrollPhysics(),
-        dragStartBehavior: DragStartBehavior.down,
-        tabs: _children,
-        builderDelegate: CustomTabBarViewCustomBuilderDelegate(
-          (context, pageController, childrenWithKey, index) {
-            return AnimatedBuilder(
-              animation: pageController,
-              builder: (context, child) {
-                final page = pageController.page ??
-                    pageController.initialPage.toDouble();
-                final offset = (page - index) * pageController.viewportFraction;
-
-                final dx = offset * width * 0.8;
-                final scale = 1 - offset.abs() * 0.1;
-                final opacity = 1 - offset.abs() * 2;
-
-                return Opacity(
-                  opacity: opacity.clamp(0.0, 1.0),
-                  child: Transform.scale(
-                    scale: scale,
-                    child: Transform.translate(
-                        offset: Offset(dx, 0), child: child),
-                  ),
-                );
-              },
-              child: childrenWithKey[index],
-            );
-          },
+    return Directionality(
+      textDirection: _textDirection,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('CustomTabBarView Demo'),
+          actions: [
+            IconButton(
+              onPressed: _toggleTextDirection,
+              tooltip: 'Toggle text direction',
+              icon: Icon(
+                _textDirection == TextDirection.ltr
+                    ? Icons.format_textdirection_l_to_r
+                    : Icons.format_textdirection_r_to_l,
+              ),
+            ),
+          ],
         ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Transform.flip(
-          flipY: true,
-          child: SizedBox(
-            height: 60,
-            child: TabBar(
-              controller: _tabController,
-              isScrollable: false,
-              labelColor: Theme.of(context).primaryColorDark,
-              indicatorColor: Theme.of(context).primaryColorDark,
-              labelStyle: const TextStyle(fontSize: 10),
-              tabs: [
-                Transform.flip(
-                  flipY: true,
-                  child: const Tab(icon: Icon(Icons.home), text: '홈'),
-                ),
-                Transform.flip(
-                  flipY: true,
-                  child: const Tab(icon: Icon(Icons.one_k), text: 'Page 1'),
-                ),
-                Transform.flip(
-                  flipY: true,
-                  child: const Tab(icon: Icon(Icons.two_k), text: 'Page 2'),
-                ),
-                Transform.flip(
-                  flipY: true,
-                  child: const Tab(icon: Icon(Icons.three_k), text: 'Page 3'),
-                ),
-                Transform.flip(
-                  flipY: true,
-                  child: const Tab(icon: Icon(Icons.four_k), text: 'Page 4'),
-                ),
-              ],
+        backgroundColor: Colors.white,
+        body: CustomTabBarView.custom(
+          controller: _tabController,
+          physics: const PageScrollPhysics(),
+          dragStartBehavior: DragStartBehavior.down,
+          tabs: _children,
+          builderDelegate: CustomTabBarViewCustomBuilderDelegate(
+            (context, pageController, childrenWithKey, index) {
+              return AnimatedBuilder(
+                animation: pageController,
+                builder: (context, child) {
+                  final page = pageController.page ??
+                      pageController.initialPage.toDouble();
+                  final offset =
+                      (page - index) * pageController.viewportFraction;
+
+                  final dxSign =
+                      Directionality.of(context) == TextDirection.rtl ? -1 : 1;
+                  final dx = dxSign * offset * width * 0.8;
+                  final scale = 1 - offset.abs() * 0.1;
+                  final opacity = 1 - offset.abs() * 2;
+
+                  return Opacity(
+                    opacity: opacity.clamp(0.0, 1.0),
+                    child: Transform.scale(
+                      scale: scale,
+                      child: Transform.translate(
+                          offset: Offset(dx, 0), child: child),
+                    ),
+                  );
+                },
+                child: childrenWithKey[index],
+              );
+            },
+          ),
+        ),
+        bottomNavigationBar: SafeArea(
+          child: Transform.flip(
+            flipY: true,
+            child: SizedBox(
+              height: 60,
+              child: TabBar(
+                controller: _tabController,
+                isScrollable: false,
+                labelColor: Theme.of(context).primaryColorDark,
+                indicatorColor: Theme.of(context).primaryColorDark,
+                labelStyle: const TextStyle(fontSize: 10),
+                tabs: [
+                  Transform.flip(
+                    flipY: true,
+                    child: const Tab(icon: Icon(Icons.home), text: '홈'),
+                  ),
+                  Transform.flip(
+                    flipY: true,
+                    child: const Tab(icon: Icon(Icons.one_k), text: 'Page 1'),
+                  ),
+                  Transform.flip(
+                    flipY: true,
+                    child: const Tab(icon: Icon(Icons.two_k), text: 'Page 2'),
+                  ),
+                  Transform.flip(
+                    flipY: true,
+                    child: const Tab(icon: Icon(Icons.three_k), text: 'Page 3'),
+                  ),
+                  Transform.flip(
+                    flipY: true,
+                    child: const Tab(icon: Icon(Icons.four_k), text: 'Page 4'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
