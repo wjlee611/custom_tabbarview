@@ -124,7 +124,8 @@ It returns a Widget and takes the following arguments:
 
 - `context`: `BuildContext` for the widget.
 - `offset`: The offset value for each widget in the TabBarView.
-  1: left / 0: center / -1: right
+  1: left / 0: center / -1: right (mirrored in RTL)  
+  Flip the sign of horizontal translations when the text direction is RTL.
 - `widget`: Each child widget of tabs.
 
 ### CustomTabBarViewCustomBuilder
@@ -162,7 +163,8 @@ CustomTabBarView.builder(
   controller: _tabController,
   tabs: _children,
   builder: (context, offset, child) {
-    final dx = offset * width * 0.8;
+    final dxSign = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
+    final dx = dxSign * offset * width * 0.8;
     final scale = 1 - offset.abs() * 0.1;
     final opacity = 1 - offset.abs() * 2;
 
@@ -187,7 +189,8 @@ CustomTabBarView.custom(
   tabs: _children,
   builderDelegate: CustomTabBarViewBuilderDelegate(
     (context, offset, child) {
-      final dx = offset * width * 0.8;
+      final dxSign = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
+      final dx = dxSign * offset * width * 0.8;
       final scale = 1 - offset.abs() * 0.1;
       final opacity = 1 - offset.abs() * 2;
 
@@ -218,7 +221,8 @@ CustomTabBarView.custom(
               pageController.initialPage.toDouble();
           final offset = (page - index) * pageController.viewportFraction;
 
-          final dx = offset * width * 0.8;
+          final dxSign = Directionality.of(context) == TextDirection.rtl ? -1 : 1;
+          final dx = dxSign * offset * width * 0.8;
           final scale = 1 - offset.abs() * 0.1;
           final opacity = 1 - offset.abs() * 2;
 
