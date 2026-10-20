@@ -102,6 +102,18 @@ CustomTabBarView.custom(
 )
 ```
 
+### from v1.x to v2.x
+
+Since v2.0.0, CustomTabBarView is built on [`material_ui`](https://pub.dev/packages/material_ui), the Material library decoupled from the Flutter SDK.
+`controller` now takes the `TabController` from `package:material_ui`, so your app has to use `material_ui` as well.
+
+1. Use Flutter 3.44 or later.
+2. Migrate imports from `package:flutter/material.dart` to `package:material_ui/material_ui.dart`.
+
+```sh
+dart fix --apply --code=migrate_design_widgets
+```
+
 ## Types (new API)
 
 ### CustomTabBarViewBuilder

@@ -1,7 +1,7 @@
 import 'package:custom_tabbarview/custom_tabbarview.dart';
 import 'package:custom_tabbarview/src/core.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'dart:math' as math;
 
 part '_builder_presets.dart';

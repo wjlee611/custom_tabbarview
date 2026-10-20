@@ -5,7 +5,7 @@ import 'package:example/pages/page_2.dart';
 import 'package:example/pages/page_3.dart';
 import 'package:example/pages/page_4.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MyApp());

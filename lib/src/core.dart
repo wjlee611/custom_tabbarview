@@ -28,7 +28,7 @@ import 'dart:ui';
 
 import 'package:custom_tabbarview/custom_tabbarview.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A page view that displays the widget which corresponds to the currently
 /// selected tab.
