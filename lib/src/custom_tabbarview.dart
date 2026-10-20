@@ -207,12 +207,12 @@ class CustomTabBarView extends StatelessWidget {
     if (builderDelegate == null) {
       return CustomTabBarViewCore(
         key: key,
-        children: children,
         controller: controller,
         physics: physics,
         dragStartBehavior: dragStartBehavior,
         viewportFraction: viewportFraction,
         clipBehavior: clipBehavior,
+        children: children,
       );
     }
 
